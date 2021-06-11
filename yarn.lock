@@ -14523,7 +14523,7 @@ matcher@^1.0.0:
 
 material-ui-interactors@../../material-ui-interactors/material-ui-interactors-v4.0.0-alpha.1.tgz:
   version "4.0.0-alpha.1"
-  resolved "../../material-ui-interactors/material-ui-interactors-v4.0.0-alpha.1.tgz#9f278b9815992bbc0604287dafcaf802dd48f908"
+  resolved "../../material-ui-interactors/material-ui-interactors-v4.0.0-alpha.1.tgz#e832fdc9ff29f9395a2df8fc8ff77f6d837850d0"
   dependencies:
     "@bigtest/globals" "^0.7.5"
     "@bigtest/interactor" "^0.28.2"

@@ -16,3 +16,10 @@ export const login = (login: string, password: string) => ({
         await Button('Sign in'.toUpperCase()).click();
     },
 });
+
+export const wait = (ms: number) => ({
+    description: `wait ${ms}ms`,
+    action: async () => {
+        await new Promise(resolve => setTimeout(resolve, ms));
+    },
+});

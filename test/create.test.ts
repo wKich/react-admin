@@ -9,7 +9,7 @@ import {
     Switch,
     Tabs,
 } from 'material-ui-interactors';
-import { login, logout } from './helpers';
+import { login, logout, wait } from './helpers';
 import { Page } from './interactors/page';
 
 const currentDate = new Date().toISOString().slice(0, 10);
@@ -38,13 +38,13 @@ export default test('Create Page')
             )
             .step(TextField('Title').fillIn('foo'))
             .step(TextField('Teaser').fillIn('foo'))
-            .step('fill the rich text body', async () => {
-                // NOTE This is hack to fill the contenteditable field
-                await FormControl(including('Body'))
+            // NOTE This is hack to fill the contenteditable field
+            .step(
+                FormControl(including('Body'))
                     .find(HTML({ classList: some('ql-editor') }))
-                    .perform(element => (element.innerText = 'foo'));
-                await new Promise(resolve => setTimeout(resolve, 500));
-            })
+                    .perform(element => (element.innerText = 'foo'))
+            )
+            .step(wait(500))
             .step(Button('Save and Edit'.toUpperCase()).click())
             .assertion(
                 FormControl(including('Backlinks')).has({
@@ -134,15 +134,15 @@ export default test('Create Page')
             .child('fill rest of fields', test =>
                 test
                     .step(TextField('Teaser').fillIn('Test teaser'))
-                    .step('fill the rich text body', async () => {
-                        // NOTE This is hack to fill the contenteditable field
-                        await FormControl(including('Body'))
+                    // NOTE This is hack to fill the contenteditable field
+                    .step(
+                        FormControl(including('Body'))
                             .find(HTML({ classList: some('ql-editor') }))
                             .perform(
                                 element => (element.innerText = 'Test body')
-                            );
-                        await new Promise(resolve => setTimeout(resolve, 500));
-                    })
+                            )
+                    )
+                    .step(wait(500))
                     .child(
                         'should redirect to edit page after create success',
                         test =>
@@ -276,9 +276,9 @@ export default test('Create Page')
                         'should not show rich text input error message when form is submitted and input is filled with text',
                         test =>
                             test
-                                .step('fill the rich text body', async () => {
-                                    // NOTE This is hack to fill the contenteditable field
-                                    await FormControl(including('Body'))
+                                // NOTE This is hack to fill the contenteditable field
+                                .step(
+                                    FormControl(including('Body'))
                                         .find(
                                             HTML({
                                                 classList: some('ql-editor'),
@@ -288,11 +288,9 @@ export default test('Create Page')
                                             element =>
                                                 (element.innerText =
                                                     'Test body')
-                                        );
-                                    await new Promise(resolve =>
-                                        setTimeout(resolve, 500)
-                                    );
-                                })
+                                        )
+                                )
+                                .step(wait(500))
                                 .assertion(
                                     FormControl(including('Body')).has({
                                         description: '\u200b',
